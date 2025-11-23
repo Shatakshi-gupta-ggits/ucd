@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heuristic Evaluation Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 60px;
+            min-height: 600px;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-title {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .slide-subtitle {
+            font-size: 24px;
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .content ul {
+            margin-left: 30px;
+            margin-top: 15px;
+        }
+
+        .content li {
+            margin-bottom: 12px;
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .process-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            width: 85%;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .arrow {
+            font-size: 30px;
+            color: #667eea;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .comparison-box {
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+
+        .good {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .bad {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .good h3 {
+            color: #28a745;
+        }
+
+        .bad h3 {
+            color: #dc3545;
+        }
+
+        .ui-example {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+
+        .controls {
+            background: #2d3748;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .principle-card {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .principle-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .heuristic-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .heuristic-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .table th, .table td {
+            border: 2px solid #667eea;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .cover-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .cover-slide .slide-title {
+            color: white;
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .cover-slide .subtitle {
+            font-size: 28px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .mockup {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-family: Arial, sans-serif;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        .sev-0 { background: #e3e3e3; color: #666; }
+        .sev-1 { background: #d4edda; color: #155724; }
+        .sev-2 { background: #fff3cd; color: #856404; }
+        .sev-3 { background: #f8d7da; color: #721c24; }
+        .sev-4 { background: #dc3545; color: white; }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .error-box {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .example-section {
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .mini-card {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Shared top navbar for Unit navigation */
+        .global-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            background: #2d3748;
+            padding: 10px 16px;
+        }
+
+        .global-nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .global-nav a:hover {
+            background: #4c51bf;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Site navbar -->
+        <nav class="global-nav" aria-label="Unit navigation">
+            <a href="index.html">Unit 1</a>
+            <a href="index2.html">Unit 2</a>
+            <a href="index3.html">Unit 3</a>
+            <a href="index4.html">Unit 4</a>
+            <a href="index5.html">Unit 5</a>
+        </nav>
+        
+        <!-- Slide 1: Cover -->
+        <div class="slide active cover-slide">
+            <div class="icon">🔍<h2>UNIT 2</h2></div>
+            <h1 class="slide-title">Heuristic Evaluation</h1>
+            <p class="subtitle">10 Usability Heuristics & Expert Evaluation</p>
+            <p style="font-size: 20px; opacity: 0.8;">Complete Guide for Group Assignment</p>
+        </div>
+
+        <!-- Slide 2: Table of Contents -->
+        <div class="slide">
+            <h1 class="slide-title">📋 Table of Contents</h1>
+            <div class="content">
+                <div class="principle-card">
+                    <h3>1. Introduction to Heuristic Evaluation</h3>
+                    <p>What it is, why it matters, when to use it</p>
+                </div>
+                <div class="principle-card">
+                    <h3>2. Nielsen's 10 Usability Heuristics</h3>
+                    <p>Complete breakdown with examples for each</p>
+                </div>
+                <div class="principle-card">
+                    <h3>3. Evaluation Process & Severity Ratings</h3>
+                    <p>Step-by-step methodology and rating scale</p>
+                </div>
+                <div class="principle-card">
+                    <h3>4. Group Assignment Guidelines</h3>
+                    <p>How to evaluate websites and apps</p>
+                </div>
+                <div class="principle-card">
+                    <h3>5. Real-World Examples & Case Studies</h3>
+                    <p>Practical violations and fixes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: What is Heuristic Evaluation -->
+        <div class="slide">
+            <h1 class="slide-title">🔍 What is Heuristic Evaluation?</h1>
+            <div class="content">
+                <p style="font-size: 22px; margin-bottom: 30px;">
+                    <strong>Heuristic Evaluation</strong> is a <span class="highlight">usability inspection method</span> where evaluators examine a user interface and judge its compliance with recognized usability principles (heuristics).
+                </p>
+                
+                <div class="two-column">
+                    <div class="success-box">
+                        <h3 style="color: #28a745; margin-bottom: 10px;">✅ Benefits</h3>
+                        <ul style="font-size: 16px;">
+                            <li>Fast and cost-effective</li>
+                            <li>No users required</li>
+                            <li>Finds many issues quickly</li>
+                            <li>Can be done early in design</li>
+                            <li>Expert insights</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box">
+                        <h3 style="color: #856404; margin-bottom: 10px;">⚠️ Limitations</h3>
+                        <ul style="font-size: 16px;">
+                            <li>Requires trained evaluators</li>
+                            <li>May miss context issues</li>
+                            <li>Can find false positives</li>
+                            <li>Not a replacement for user testing</li>
+                            <li>Evaluator bias possible</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>💡 Best Practice:</strong> Use 3-5 evaluators for optimal results. Single evaluators find ~35% of issues, but 5 evaluators find ~75% of usability problems!
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: When to Use -->
+        <div class="slide">
+            <h1 class="slide-title">⏰ When to Use Heuristic Evaluation?</h1>
+            <div class="content">
+                <div class="diagram">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">Design Process Timeline</h3>
+                    <div class="process-flow" style="text-align: left;">
+                        <div class="process-box" style="width: 90%;">
+                            📝 Early Design Phase → Quick heuristic check on sketches/wireframes
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%; background: #28a745;">
+                            🎨 Prototype Stage → Full heuristic evaluation (IDEAL TIME!)
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%;">
+                            👥 Before User Testing → Find obvious issues first
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%;">
+                            🚀 Pre-Launch → Final check before release
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%;">
+                            🔄 Post-Launch → Evaluate competitor sites or new features
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Nielsen Overview -->
+        <div class="slide">
+            <h1 class="slide-title">👨‍💻 Jakob Nielsen's 10 Heuristics</h1>
+            <div class="content">
+                <p class="slide-subtitle">The Gold Standard in Usability Evaluation</p>
+                <div class="grid-3">
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Heuristic Principles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">1994</div>
+                        <div class="stat-label">First Published</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">75%</div>
+                        <div class="stat-label">Issues Found (5 evaluators)</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <div class="mini-card">
+                        <strong>H1:</strong> Visibility of System Status
+                    </div>
+                    <div class="mini-card">
+                        <strong>H2:</strong> Match Between System and Real World
+                    </div>
+                    <div class="mini-card">
+                        <strong>H3:</strong> User Control and Freedom
+                    </div>
+                    <div class="mini-card">
+                        <strong>H4:</strong> Consistency and Standards
+                    </div>
+                    <div class="mini-card">
+                        <strong>H5:</strong> Error Prevention
+                    </div>
+                    <div class="mini-card">
+                        <strong>H6:</strong> Recognition Rather Than Recall
+                    </div>
+                    <div class="mini-card">
+                        <strong>H7:</strong> Flexibility and Efficiency of Use
+                    </div>
+                    <div class="mini-card">
+                        <strong>H8:</strong> Aesthetic and Minimalist Design
+                    </div>
+                    <div class="mini-card">
+                        <strong>H9:</strong> Help Users Recognize, Diagnose, and Recover from Errors
+                    </div>
+                    <div class="mini-card">
+                        <strong>H10:</strong> Help and Documentation
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: H1 - Visibility of System Status -->
+        <div class="slide">
+            <h1 class="slide-title">H1: Visibility of System Status</h1>
+            <div class="content">
+                <p class="slide-subtitle">Keep users informed about what's happening</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> The system should always keep users informed about what is going on through appropriate feedback within reasonable time.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-box good">
+                        <h3>✅ Good Example</h3>
+                        <div class="mockup" style="font-size: 14px;">
+<strong>Uploading file...</strong>
+
+[████████░░░] 80%
+
+2 seconds remaining
+
+Cancel Upload
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Why it's good:</strong></p>
+                        <ul style="font-size: 14px;">
+                            <li>Shows progress clearly</li>
+                            <li>Estimated time</li>
+                            <li>Cancel option</li>
+                        </ul>
+                    </div>
+
+                    <div class="comparison-box bad">
+                        <h3>❌ Bad Example</h3>
+                        <div class="mockup" style="font-size: 14px;">
+[Submit button clicked]
+
+[Blank screen]
+
+[No feedback]
+
+User waits... confused
+                        </div>
+                        <p style="margin-top: 10px;"><strong>Problems:</strong></p>
+                        <ul style="font-size: 14px;">
+                            <li>No loading indicator</li>
+                            <li>User doesn't know if it worked</li>
+                            <li>May click multiple times</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box" style="margin-top: 20px;">
+                    <strong>✓ Examples:</strong> Progress bars, loading spinners, "Saving..." notifications, typing indicators, form validation feedback
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: H2 - Match Real World -->
+        <div class="slide">
+            <h1 class="slide-title">H2: Match Between System & Real World</h1>
+            <div class="content">
+                <p class="slide-subtitle">Speak the user's language, not tech jargon</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Use words, phrases, and concepts familiar to the user. Follow real-world conventions making information appear in natural and logical order.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-box good">
+                        <h3>✅ Good Example</h3>
+                        <div class="mockup" style="font-size: 14px;">
+<strong>E-commerce Navigation:</strong>
+
+🛒 Shopping Cart
+💳 Checkout
+📦 My Orders
+🏠 Home
+🔍 Search Products
+                        </div>
+                        <ul style="font-size: 14px; margin-top: 10px;">
+                            <li>Familiar terms</li>
+                            <li>Clear icons</li>
+                            <li>Natural language</li>
+                        </ul>
+                    </div>
+
+                    <div class="comparison-box bad">
+                        <h3>❌ Bad Example</h3>
+                        <div class="mockup" style="font-size: 14px;">
+<strong>Technical Navigation:</strong>
+
+📋 Item Repository
+⚡ Transaction Init
+📊 Order Database
+🔧 Config Panel
+⚙️ Execute Query
+                        </div>
+                        <ul style="font-size: 14px; margin-top: 10px;">
+                            <li>Technical jargon</li>
+                            <li>Confusing terms</li>
+                            <li>System-centric</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success-box" style="margin-top: 20px;">
+                    <strong>✓ Real-World Metaphors:</strong> Folder (not directory), Trash (not delete queue), Desktop, Shopping Cart, Bookmark
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: H3 - User Control -->
+        <div class="slide">
+            <h1 class="slide-title">H3: User Control and Freedom</h1>
+            <div class="content">
+                <p class="slide-subtitle">Provide "emergency exits" for unwanted actions</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Users often choose functions by mistake. Provide clearly marked "emergency exit" to leave unwanted state without going through extended dialogue.
+                </div>
+
+                <div class="heuristic-card">
+                    <h3>Key Features for Control:</h3>
+                    <div class="two-column">
+                        <div>
+                            <strong>Undo/Redo:</strong>
+                            <div class="code-block">
+[↶ Undo]  [↷ Redo]
+Ctrl+Z / Ctrl+Y
+
+Email deleted
+[Undo] ← 5 sec to undo
+                            </div>
+                        </div>
+                        <div>
+                            <strong>Cancel Options:</strong>
+                            <div class="code-block">
+Are you sure?
+
+[Cancel] [Delete]
+
+✕ Close button
+← Back navigation
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-grid" style="margin-top: 20px;">
+                    <div class="success-box">
+                        <strong>✅ Gmail's Undo Send</strong>
+                        <p>Allows 5-30 seconds to undo email sending</p>
+                    </div>
+                    <div class="error-box">
+                        <strong>❌ Irreversible Delete</strong>
+                        <p>No undo, no confirmation, data gone forever</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: H4 - Consistency -->
+        <div class="slide">
+            <h1 class="slide-title">H4: Consistency and Standards</h1>
+            <div class="content">
+                <p class="slide-subtitle">Users shouldn't wonder if different words mean the same thing</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Follow platform conventions. Users shouldn't have to wonder whether different words, situations, or actions mean the same thing.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-box good">
+                        <h3>✅ Consistent Design</h3>
+                        <div class="mockup" style="font-size: 13px;">
+<strong>Dialog 1:</strong>
+[Cancel] [OK]
+
+<strong>Dialog 2:</strong>
+[Cancel] [OK]
+
+<strong>Dialog 3:</strong>
+[Cancel] [OK]
+
+Same order everywhere!
+                        </div>
+                    </div>
+
+                    <div class="comparison-box bad">
+                        <h3>❌ Inconsistent Design</h3>
+                        <div class="mockup" style="font-size: 13px;">
+<strong>Dialog 1:</strong>
+[OK] [Cancel]
+
+<strong>Dialog 2:</strong>
+[Cancel] [OK]
+
+<strong>Dialog 3:</strong>
+[Submit] [Close]
+
+Confusing order!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="heuristic-card" style="margin-top: 20px;">
+                    <h3>Types of Consistency:</h3>
+                    <ul>
+                        <li><strong>Visual:</strong> Same colors, fonts, spacing throughout</li>
+                        <li><strong>Functional:</strong> Same actions work the same way</li>
+                        <li><strong>Internal:</strong> Consistent within your product</li>
+                        <li><strong>External:</strong> Follows platform standards (iOS, Android, Web)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: H5 - Error Prevention -->
+        <div class="slide">
+            <h1 class="slide-title">H5: Error Prevention</h1>
+            <div class="content">
+                <p class="slide-subtitle">Better than good error messages is preventing problems</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Even better than good error messages is careful design that prevents problems from occurring in the first place.
+                </div>
+
+                <div class="heuristic-card">
+                    <h3>4 Types of Error Prevention:</h3>
+                    
+                    <div style="margin-top: 15px;">
+                        <strong>1. Constraints (Make errors impossible)</strong>
+                        <div class="mockup" style="margin: 10px 0; font-size: 13px;">
+Date: [📅 Calendar Picker]
+(Can't type invalid date)
+
+Quantity: [-] 1 [+]
+(Can't go below 0)
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <strong>2. Confirmations (Double-check critical actions)</strong>
+                        <div class="mockup" style="margin: 10px 0; font-size: 13px;">
+┌─────────────────────────┐
+│ Delete Account?         │
+│                         │
+│ This cannot be undone!  │
+│                         │
+│ [Cancel] [Delete]       │
+└─────────────────────────┘
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <strong>3. Suggestions (Guide to correct input)</strong>
+                        <div class="mockup" style="margin: 10px 0; font-size: 13px;">
+Email: john@gmailcom
+⚠️ Did you mean john@gmail.com?
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <strong>4. Defaults (Provide sensible values)</strong>
+                        <div class="mockup" style="margin: 10px 0; font-size: 13px;">
+☑️ Same as billing address
+(Pre-filled, can change)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: H6 - Recognition vs Recall -->
+        <div class="slide">
+            <h1 class="slide-title">H6: Recognition Rather Than Recall</h1>
+            <div class="content">
+                <p class="slide-subtitle">Make options visible, don't make users remember</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Minimize user's memory load by making objects, actions, and options visible. Instructions should be visible or easily retrievable.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-box good">
+                        <h3>✅ Recognition (Easy)</h3>
+                        <div class="mockup" style="font-size: 13px;">
+<strong>Font Selection:</strong>
+
+Font: [Arial     ▼]
+      ┌─────────────┐
+      │ Arial       │
+      │ Helvetica   │
+      │ Times       │
+      │ Courier     │
+      └─────────────┘
+
+<strong>Search with History:</strong>
+Search: "user"
+┌──────────────────┐
+│ user research    │
+│ user testing     │
+│ user experience  │
+└──────────────────┘
+                        </div>
+                    </div>
+
+                    <div class="comparison-box bad">
+                        <h3>❌ Recall (Hard)</h3>
+                        <div class="mockup" style="font-size: 13px;">
+<strong>Command Line:</strong>
+
+C:\> type command...
+(Must remember syntax)
+
+<strong>No Search History:</strong>
+Search: [________]
+(Must remember previous
+ searches yourself)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box" style="margin-top: 20px;">
+                    <strong>✓ Techniques:</strong> Autocomplete, Dropdowns, Recently Used Lists, Breadcrumbs, Tooltips, Visual Previews
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: H7 - Flexibility -->
+        <div class="slide">
+            <h1 class="slide-title">H7: Flexibility and Efficiency</h1>
+            <div class="content">
+                <p class="slide-subtitle">Serve both novice and expert users</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Accelerators for expert users speed up interaction. System should cater to both inexperienced and experienced users.
+                </div>
+
+                <div class="heuristic-card">
+                    <h3>Multiple Ways to Perform Actions:</h3>
+                    
+                    <div class="mockup" style="margin: 15px 0; font-size: 14px;">
+<strong>Delete a File (4 ways):</strong>
+
+1. 🖱️ Right-click → Delete
+2. ⌨️ Press Delete key
+3. 🎯 Drag to trash
+4. ⚡ Ctrl+D shortcut
+
+<strong>Save Document:</strong>
+• Click Save button
+• Ctrl+S shortcut  ⚡ (Expert)
+• File → Save menu
+                    </div>
+                </div>
+
+                <div class="two-column">
+                    <div class="success-box">
+                        <strong>For Beginners:</strong>
+                        <ul style="font-size: 14px;">
+                            <li>Clear buttons</li>
+                            <li>Menus with labels</li>
+                            <li>Wizards/guides</li>
+                            <li>Tooltips</li>
+                        </ul>
+                    </div>
+                    <div class="success-box">
+                        <strong>For Experts:</strong>
+                        <ul style="font-size: 14px;">
+                            <li>Keyboard shortcuts</li>
+                            <li>Bulk actions</li>
+                            <li>Customization</li>
+                            <li>Command palette</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: H8 - Minimalist Design -->
+        <div class="slide">
+            <h1 class="slide-title">H8: Aesthetic & Minimalist Design</h1>
+            <div class="content">
+                <p class="slide-subtitle">Remove irrelevant information - less is more</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Dialogues should not contain irrelevant information. Every extra unit of information competes with relevant units.
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-box good">
+                        <h3>✅ Clean & Focused</h3>
+                        <div class="mockup" style="font-size: 12px;">
+┌─────────────────────┐
+│   Google            │
+│                     │
+│ [Search Bar]        │
+│                     │
+│ [Search] [Lucky]    │
+│                     │
+└─────────────────────┘
+
+Simple, focused design
+Only essential elements
+Plenty of whitespace
+                        </div>
+                    </div>
+
+                    <div class="comparison-box bad">
+                        <h3>❌ Cluttered</h3>
+                        <div class="mockup" style="font-size: 11px;">
+┌─────────────────────┐
+│[AD][AD][AD][POPUP]  │
+│[100 buttons]        │
+│[Banners][Widgets]   │
+│[Social][News][Ads]  │
+│ Where's content? 😵 │
+└─────────────────────┘
+
+Too much information
+Can't find main content
+Overwhelming layout
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box" style="margin-top: 20px;">
+                    <strong>✓ Principles:</strong> Use whitespace • Visual hierarchy • Progressive disclosure • One primary action per screen
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: H9 - Error Messages -->
+        <div class="slide">
+            <h1 class="slide-title">H9: Error Recognition & Recovery</h1>
+            <div class="content">
+                <p class="slide-subtitle">Clear error messages with solutions</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Error messages in plain language, precisely indicate problem, and constructively suggest a solution.
+                </div>
+
+                <div class="heuristic-card">
+                    <h3>Good Error Message Formula:</h3>
+                    <div class="mockup" style="margin: 15px 0; background: #f8f9fa; font-size: 14px;">
+1. ❌ What happened (the problem)
+2. 🤔 Why it happened (the cause)
+3. ✅ How to fix it (the solution)
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="comparison-box good">
+                        <h3>✅ Helpful Error</h3>
+                        <div class="mockup" style="font-size: 12px;">
+┌─────────────────────────┐
+│ ⚠️ Unable to Save File  │
+│                         │
+│ File name contains      │
+│ invalid characters      │
+│ (/, \, :, *, ?, ", <, >)│
+│                         │
+│ Please remove these     │
+│ characters and try again│
+│                         │
+│ [Rename File]           │
+└─────────────────────────┘
+                        </div>
+                    </div>
+
+                    <div class="comparison-box bad">
+                        <h3>❌ Unhelpful Error</h3>
+                        <div class="mockup" style="font-size: 12px;">
+┌─────────────────────────┐
+│ ERROR                   │
+│                         │
+│ 0x80004005             │
+│                         │
+│ Operation failed        │
+│                         │
+│ [OK]                    │
+└─────────────────────────┘
+
+What failed?
+Why did it fail?
+How to fix it?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box" style="margin-top: 20px;">
+                    <strong>Avoid:</strong> Technical jargon • Blaming user • Vague messages • Dead ends
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: H10 - Help & Documentation -->
+        <div class="slide">
+            <h1 class="slide-title">H10: Help and Documentation</h1>
+            <div class="content">
+                <p class="slide-subtitle">Easy to search, focused, concrete steps</p>
+                
+                <div class="info-box">
+                    <strong>💡 Principle:</strong> Even if system can be used without documentation, provide help. Make it easy to search, focused on user's task, with concrete steps.
+                </div>
+
+                <div class="heuristic-card">
+                    <h3>Types of Help:</h3>
+                    
+                    <div class="two-column" style="margin-top: 15px;">
+                        <div>
+                            <strong>1. Contextual Help</strong>
+                            <div class="mockup" style="margin: 10px 0; font-size: 12px;">
+Password [?]
+┌──────────────────┐
+│ Must be 8+ chars │
+│ Include: Upper,  │
+│ lower, number    │
+└──────────────────┘
+                            </div>
+                        </div>
+                        <div>
+                            <strong>2. Searchable Docs</strong>
+                            <div class="mockup" style="margin: 10px 0; font-size: 12px;">
+🔍 Search help
+[____________]
+
+Popular Topics:
+• Getting Started
+• Account Settings
+• Troubleshooting
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="two-column" style="margin-top: 15px;">
+                        <div>
+                            <strong>3. Onboarding</strong>
+                            <div class="mockup" style="margin: 10px 0; font-size: 12px;">
+👋 Welcome Tour
+┌──────────────┐
+│ This is your │
+│ dashboard ➜  │
+│ Step 1 of 4  │
+│ [Skip][Next] │
+└──────────────┘
+                            </div>
+                        </div>
+                        <div>
+                            <strong>4. FAQs</strong>
+                            <div class="mockup" style="margin: 10px 0; font-size: 12px;">
+▼ Reset password?
+  1. Click "Forgot"
+  2. Enter email
+  3. Check inbox
+
+▼ Change plan?
+  [Steps...]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Severity Rating Scale -->
+        <div class="slide">
+            <h1 class="slide-title">📊 Severity Rating Scale</h1>
+            <div class="content">
+                <p class="slide-subtitle">How to rate usability problems</p>
+                
+                <table class="table">
+                    <tr>
+                        <th>Rating</th>
+                        <th>Severity</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td><span class="severity-badge sev-0">0</span></td>
+                        <td>Not a Problem</td>
+                        <td>No usability issue</td>
+                        <td>No action needed</td>
+                    </tr>
+                    <tr>
+                        <td><span class="severity-badge sev-1">1</span></td>
+                        <td>Cosmetic</td>
+                        <td>Minor issue, fix if time</td>
+                        <td>Low priority</td>
+                    </tr>
+                    <tr>
+                        <td><span class="severity-badge sev-2">2</span></td>
+                        <td>Minor</td>
+                        <td>Small usability problem</td>
+                        <td>Should fix</td>
+                    </tr>
+                    <tr>
+                        <td><span class="severity-badge sev-3">3</span></td>
+                        <td>Major</td>
+                        <td>Important problem</td>
+                        <td>High priority</td>
+                    </tr>
+                    <tr>
+                        <td><span class="severity-badge sev-4">4</span></td>
+                        <td>Catastrophic</td>
+                        <td>Usability catastrophe</td>
+                        <td>Fix immediately!</td>
+                    </tr>
+                </table>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>💡 Consider These Factors:</strong>
+                    <ul>
+                        <li><strong>Frequency:</strong> How often does it occur?</li>
+                        <li><strong>Impact:</strong> How difficult to overcome?</li>
+                        <li><strong>Persistence:</strong> Will users hit it repeatedly?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Severity Examples -->
+        <div class="slide">
+            <h1 class="slide-title">📋 Severity Rating Examples</h1>
+            <div class="content">
+                <div class="error-box">
+                    <h3 style="color: #721c24;">🔴 Severity 4 - CATASTROPHIC</h3>
+                    <ul style="font-size: 16px;">
+                        <li>❌ Cannot complete checkout - site crashes</li>
+                        <li>❌ Login button doesn't work at all</li>
+                        <li>❌ Data loss without any warning</li>
+                        <li>❌ App closes unexpectedly during critical task</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h3 style="color: #856404;">🟠 Severity 3 - MAJOR</h3>
+                    <ul style="font-size: 16px;">
+                        <li>⚠️ Confusing navigation - users get lost</li>
+                        <li>⚠️ Poor error messages - can't recover</li>
+                        <li>⚠️ No confirmation for delete action</li>
+                        <li>⚠️ Form validation only after submission</li>
+                    </ul>
+                </div>
+
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 5px solid #ffc107; margin: 15px 0;">
+                    <h3 style="color: #856404;">🟡 Severity 2 - MINOR</h3>
+                    <ul style="font-size: 16px;">
+                        <li>⚡ Inconsistent button labels</li>
+                        <li>⚡ Small text hard to read</li>
+                        <li>⚡ Unclear icon meanings</li>
+                        <li>⚡ No keyboard shortcuts</li>
+                    </ul>
+                </div>
+
+                <div style="background: #e3e3e3; padding: 15px; border-radius: 8px; border-left: 5px solid #999; margin: 15px 0;">
+                    <h3 style="color: #666;">⚪ Severity 1 - COSMETIC</h3>
+                    <ul style="font-size: 16px;">
+                        <li>🎨 Color scheme slightly off-brand</li>
+                        <li>🎨 Minor spacing inconsistencies</li>
+                        <li>🎨 Small typography issues</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Evaluation Process -->
+        <div class="slide">
+            <h1 class="slide-title">🔄 Heuristic Evaluation Process</h1>
+            <div class="content">
+                <div class="diagram">
+                    <div class="process-flow">
+                        <div class="process-box" style="width: 90%;">
+                            <strong>Step 1: Briefing</strong><br>
+                            Define scope, select 3-5 evaluators, provide context
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%;">
+                            <strong>Step 2: Individual Evaluation</strong><br>
+                            Each evaluator inspects independently, note violations
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%;">
+                            <strong>Step 3: Severity Rating</strong><br>
+                            Rate each issue (0-4), consider frequency & impact
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%;">
+                            <strong>Step 4: Debriefing Session</strong><br>
+                            Combine findings, discuss, remove duplicates
+                        </div>
+                        <div class="arrow">↓</div>
+                        <div class="process-box" style="width: 90%;">
+                            <strong>Step 5: Report & Recommendations</strong><br>
+                            Final report with solutions and prioritization
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Issue Documentation -->
+        <div class="slide">
+            <h1 class="slide-title">📝 How to Document Issues</h1>
+            <div class="content">
+                <p class="slide-subtitle">Complete template for each issue found</p>
+                
+                <div class="heuristic-card">
+                    <div class="code-block" style="text-align: left;">
+<strong>Issue #1</strong>
+─────────────────────────────────────
+<strong>Location:</strong> Homepage > Search Bar
+
+<strong>Heuristic Violated:</strong> H1 - Visibility of System Status
+
+<strong>Severity:</strong> 3 (Major)
+
+<strong>Description:</strong>
+When user clicks search, there is no loading 
+indicator. User doesn't know if search is 
+processing or if system is stuck.
+
+<strong>Screenshot:</strong> [Insert screenshot here]
+
+<strong>Impact:</strong>
+Users may click multiple times thinking it 
+didn't work, causing duplicate searches and 
+frustration. May abandon the site.
+
+<strong>Recommendation:</strong>
+Add loading spinner and "Searching..." text 
+while processing. Show estimated time if 
+search takes more than 2 seconds.
+
+<strong>Priority:</strong> High
+<strong>Estimated Effort:</strong> Low (2-4 hours)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Group Assignment Structure -->
+        <div class="slide">
+            <h1 class="slide-title">👥 Group Assignment Guidelines</h1>
+            <div class="content">
+                <p class="slide-subtitle">Website/App Evaluation Project</p>
+                
+                <div class="principle-card">
+                    <h3>Part 1: Select Product & Define Scope</h3>
+                    <p><strong>Choose a website or mobile app:</strong></p>
+                    <ul style="font-size: 16px;">
+                        <li>E-commerce (Amazon, Flipkart)</li>
+                        <li>Social Media (Instagram, Twitter)</li>
+                        <li>Banking App (Paytm, PhonePe)</li>
+                        <li>Food Delivery (Zomato, Swiggy)</li>
+                        <li>Productivity (Notion, Trello)</li>
+                    </ul>
+                </div>
+
+                <div class="principle-card">
+                    <h3>Part 2: Define Key Tasks</h3>
+                    <p><strong>Example for E-commerce:</strong></p>
+                    <div class="mini-card">
+                        <strong>Task 1:</strong> Search and browse products
+                    </div>
+                    <div class="mini-card">
+                        <strong>Task 2:</strong> Add item to cart
+                    </div>
+                    <div class="mini-card">
+                        <strong>Task 3:</strong> Complete checkout process
+                    </div>
+                    <div class="mini-card">
+                        <strong>Task 4:</strong> Track order status
+                    </div>
+                    <div class="mini-card">
+                        <strong>Task 5:</strong> Write product review
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Evaluation Template -->
+        <div class="slide">
+            <h1 class="slide-title">✅ Evaluation Checklist</h1>
+            <div class="content">
+                <p class="slide-subtitle">For each screen/task, check all 10 heuristics</p>
+                
+                <table class="table" style="font-size: 15px;">
+                    <tr>
+                        <th style="width: 15%;">Heuristic</th>
+                        <th style="width: 55%;">Question to Ask</th>
+                        <th style="width: 30%;">Status</th>
+                    </tr>
+                    <tr>
+                        <td><strong>H1</strong></td>
+                        <td>Does system provide feedback for all actions?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H2</strong></td>
+                        <td>Uses familiar language and metaphors?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H3</strong></td>
+                        <td>Can users undo/cancel actions easily?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H4</strong></td>
+                        <td>Is interface consistent throughout?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H5</strong></td>
+                        <td>Are errors prevented through design?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H6</strong></td>
+                        <td>Are options visible vs requiring recall?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H7</strong></td>
+                        <td>Are there shortcuts for expert users?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H8</strong></td>
+                        <td>Is design minimal and focused?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H9</strong></td>
+                        <td>Are error messages clear and helpful?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                    <tr>
+                        <td><strong>H10</strong></td>
+                        <td>Is help easily accessible when needed?</td>
+                        <td>✓ Pass / ✗ Fail</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 22: Real Example - E-commerce Checkout -->
+        <div class="slide">
+            <h1 class="slide-title">💳 Example: E-commerce Checkout</h1>
+            <div class="content">
+                <p class="slide-subtitle">Task: Complete Purchase</p>
+                
+                <div class="error-box">
+                    <h3>Issue #1</h3>
+                    <p><strong>Heuristic:</strong> H5 - Error Prevention</p>
+                    <p><strong>Severity:</strong> <span class="severity-badge sev-4">4 - Catastrophic</span></p>
+                    <p><strong>Problem:</strong></p>
+                    <div class="mockup" style="margin: 10px 0; font-size: 13px;">
+┌───────────────────────┐
+│ Card Number:          │
+│ [________________]    │
+│                       │
+│ [Submit Payment]      │
+└───────────────────────┘
+
+User can submit without 
+entering card number!
+                    </div>
+                    <p><strong>Recommendation:</strong> Disable submit button until all required fields filled. Add real-time validation.</p>
+                </div>
+
+                <div class="warning-box">
+                    <h3>Issue #2</h3>
+                    <p><strong>Heuristic:</strong> H1 - Visibility of System Status</p>
+                    <p><strong>Severity:</strong> <span class="severity-badge sev-3">3 - Major</span></p>
+                    <p><strong>Problem:</strong> After clicking "Place Order", blank screen for 5 seconds with no feedback.</p>
+                    <p><strong>Recommendation:</strong> Show "Processing your order..." with progress indicator</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Real Example - Banking App -->
+        <div class="slide">
+            <h1 class="slide-title">🏦 Example: Banking App</h1>
+            <div class="content">
+                <p class="slide-subtitle">Task: Transfer Money</p>
+                
+                <div class="error-box">
+                    <h3>Issue #1</h3>
+                    <p><strong>Heuristic:</strong> H5 - Error Prevention</p>
+                    <p><strong>Severity:</strong> <span class="severity-badge sev-4">4 - Catastrophic</span></p>
+                    <p><strong>Problem:</strong> No confirmation before money transfer. Easy to send wrong amount accidentally.</p>
+                    <p><strong>Recommendation:</strong></p>
+                    <div class="mockup" style="margin: 10px 0; font-size: 13px;">
+┌───────────────────────────┐
+│ <strong>Confirm Transfer</strong>         │
+│                           │
+│ Amount: ₹10,000          │
+│ To: John Doe             │
+│ Account: ****5678         │
+│                           │
+│ ⚠️ Cannot be undone      │
+│                           │
+│ [Cancel] [Confirm]        │
+└───────────────────────────┘
+                    </div>
+                </div>
+
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 5px solid #ffc107; margin: 15px 0;">
+                    <h3>Issue #2</h3>
+                    <p><strong>Heuristic:</strong> H6 - Recognition vs Recall</p>
+                    <p><strong>Severity:</strong> <span class="severity-badge sev-2">2 - Minor</span></p>
+                    <p><strong>Problem:</strong> Must remember and type account number manually.</p>
+                    <p><strong>Recommendation:</strong> Show recent beneficiaries list for quick selection.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Report Structure -->
+        <div class="slide">
+            <h1 class="slide-title">📄 Final Report Structure</h1>
+            <div class="content">
+                <div class="principle-card">
+                    <h3>1. Executive Summary</h3>
+                    <ul style="font-size: 16px;">
+                        <li>Product name and version</li>
+                        <li>Total issues found</li>
+                        <li>Severity breakdown</li>
+                        <li>Top 3 critical issues</li>
+                    </ul>
+                </div>
+
+                <div class="principle-card">
+                    <h3>2. Methodology</h3>
+                    <ul style="font-size: 16px;">
+                        <li>Evaluators (names and roles)</li>
+                        <li>Tasks evaluated</li>
+                        <li>Evaluation process</li>
+                    </ul>
+                </div>
+
+                <div class="principle-card">
+                    <h3>3. Findings Summary</h3>
+                    <div class="mockup" style="margin: 10px 0; font-size: 14px;">
+Total Issues: 24
+
+By Severity:
+• Catastrophic (4): 2 issues
+• Major (3):        8 issues  
+• Minor (2):        10 issues
+• Cosmetic (1):     4 issues
+
+By Heuristic:
+• H1: 3 issues  • H6: 2 issues
+• H2: 2 issues  • H7: 1 issue
+• H3: 4 issues  • H8: 2 issues
+• H4: 5 issues  • H9: 2 issues
+• H5: 3 issues  • H10: 1 issue
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Prioritization Matrix -->
+        <div class="slide">
+            <h1 class="slide-title">📊 Prioritization Matrix</h1>
+            <div class="content">
+                <table class="table">
+                    <tr>
+                        <th>Priority</th>
+                        <th>Issue</th>
+                        <th>Severity</th>
+                        <th>Effort</th>
+                        <th>Timeline</th>
+                    </tr>
+                    <tr style="background: #f8d7da;">
+                        <td><strong>P0</strong></td>
+                        <td>Cannot complete payment</td>
+                        <td><span class="severity-badge sev-4">4</span></td>
+                        <td>High</td>
+                        <td>Week 1</td>
+                    </tr>
+                    <tr style="background: #f8d7da;">
+                        <td><strong>P0</strong></td>
+                        <td>Data loss on logout</td>
+                        <td><span class="severity-badge sev-4">4</span></td>
+                        <td>Medium</td>
+                        <td>Week 1</td>
+                    </tr>
+                    <tr style="background: #fff3cd;">
+                        <td><strong>P1</strong></td>
+                        <td>Confusing navigation</td>
+                        <td><span class="severity-badge sev-3">3</span></td>
+                        <td>Low</td>
+                        <td>Week 2</td>
+                    </tr>
+                    <tr style="background: #fff3cd;">
+                        <td><strong>P1</strong></td>
+                        <td>No search feedback</td>
+                        <td><span class="severity-badge sev-3">3</span></td>
+                        <td>Low</td>
+                        <td>Week 2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>P2</strong></td>
+                        <td>Inconsistent labels</td>
+                        <td><span class="severity-badge sev-2">2</span></td>
+                        <td>Low</td>
+                        <td>Week 3</td>
+                    </tr>
+                    <tr>
+                        <td><strong>P3</strong></td>
+                        <td>Minor spacing issues</td>
+                        <td><span class="severity-badge sev-1">1</span></td>
+                        <td>Low</td>
+                        <td>Backlog</td>
+                    </tr>
+                </table>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>💡 Prioritization Formula:</strong> Consider Severity + User Impact + Frequency + Fix Effort
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Quick Reference Table -->
+        <div class="slide">
+            <h1 class="slide-title">📌 Quick Reference: All 10 Heuristics</h1>
+        </div>
+<div class="controls">
+            <button class="btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">0</span>
+            </span>
+            <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            const slides = Array.from(document.querySelectorAll('.slide'));
+            let current = 0;
+            const currentEl = document.getElementById('currentSlide');
+            const totalEl = document.getElementById('totalSlides');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            function showSlide(i){
+                slides.forEach(s => s.classList.remove('active'));
+                slides[i].classList.add('active');
+                if(currentEl) currentEl.textContent = i + 1;
+                if(totalEl) totalEl.textContent = slides.length;
+                if(prevBtn) prevBtn.disabled = (i === 0);
+                if(nextBtn) nextBtn.disabled = (i === slides.length - 1);
+            }
+
+            window.changeSlide = function(n){
+                current = Math.min(Math.max(current + n, 0), slides.length - 1);
+                showSlide(current);
+            };
+
+            // keyboard navigation
+            document.addEventListener('keydown', function(e){
+                if(e.key === 'ArrowRight') window.changeSlide(1);
+                if(e.key === 'ArrowLeft') window.changeSlide(-1);
+            });
+
+            // initialize
+            if(slides.length) showSlide(0);
+        });
+        </script>
+
+    </body>
+</html>
