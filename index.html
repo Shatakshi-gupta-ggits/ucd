@@ -28,6 +28,7 @@
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
+            position: relative;
         }
 
         .slide {
@@ -61,27 +62,27 @@
             font-weight: 600;
         }
 
-            /* Shared top navbar for Unit navigation */
-            .global-nav {
-                display: flex;
-                justify-content: center;
-                gap: 12px;
-                background: #2d3748;
-                padding: 10px 16px;
-            }
+        /* Shared top navbar for Unit navigation */
+        .global-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            background: #2d3748;
+            padding: 10px 16px;
+        }
 
-            .global-nav a {
-                color: #e2e8f0;
-                text-decoration: none;
-                padding: 8px 14px;
-                border-radius: 8px;
-                font-weight: 700;
-            }
+        .global-nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
 
-            .global-nav a:hover {
-                background: #4c51bf;
-                color: #fff;
-            }
+        .global-nav a:hover {
+            background: #4c51bf;
+            color: #fff;
+        }
 
         .content {
             font-size: 18px;
@@ -288,18 +289,17 @@
             margin-bottom: 20px;
         }
 
-        /* Footer styling */
+        /* Footer styling - Always visible at bottom */
         .footer {
-            display: block;
             width: 100%;
             box-sizing: border-box;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            text-align: center !important;
+            text-align: center;
             padding: 25px 20px;
             font-size: 16px;
             border-top: 3px solid #667eea;
-            margin-top: 40px;
+            margin-top: 0;
         }
 
         .footer p {
@@ -331,6 +331,7 @@
             <a href="index4.html">Unit 4</a>
             <a href="index5.html">Unit 5</a>
         </nav>
+        
         <!-- Slide 1: Cover -->
         <div class="slide active cover-slide">
             <div class="icon">🎨<h2>UNIT -1~<h2></div>
@@ -878,14 +879,17 @@ Dashboard
                     <p style="font-size: 20px;">Understand Concepts + Real Examples + Practice Diagrams = Success!</p>
                 </div>
             </div>
+            
         </div>
-<div class="controls">
+  <!-- Navigation Controls -->
+        <div class="controls">
             <button class="btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
             <span class="slide-counter">
                 <span id="currentSlide">1</span> / <span id="totalSlides">18</span>
             </span>
             <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
         </div>
+    </div>
         <!-- Slide 18: Thank You -->
         <div class="slide cover-slide">
             <div class="icon">🎓</div>
@@ -897,12 +901,13 @@ Dashboard
                 <p>Understand concepts deeply • Apply to products you use daily</p>
             </div>
         </div>
-
-        <!-- Navigation Controls -->
-        
     </div>
 
-    <script>
+    <!-- Footer - Outside presentation container, always visible -->
+    <footer class="footer">
+        <p class="footer-credit">Made with ❤️ by Shatakshi Gupta</p>
+        <p class="footer-thanks">Thank You</p>
+    </footer>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
@@ -937,11 +942,5 @@ Dashboard
         // Initialize
         showSlide(0);
     </script>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p class="footer-credit">Made with ❤️ by Shatakshi Gupta</p>
-        <p class="footer-thanks">Thank You</p>
-    </footer>
 </body>
 </html>
