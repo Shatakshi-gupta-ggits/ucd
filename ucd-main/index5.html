@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Thinking & Prototyping Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+                align-items: flex-start;
+            }
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            padding: 40px;
+            min-height: 500px;
+            animation: fadeIn 0.5s;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 20px;
+                min-height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 15px;
+                min-height: 350px;
+            }
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 12px;
+                padding-bottom: 8px;
+            }
+        }
+
+        h2 {
+            color: #764ba2;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+        }
+
+        h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin: 20px 0 15px 0;
+        }
+
+        p, li {
+            color: #333;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+        }
+
+        .diagram {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 150px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: #667eea;
+        }
+
+        .persona-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .method-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .exam-question {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: #f8f9fa;
+            border-top: 2px solid #ddd;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .grid-3 {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table th, .table td {
+            border: 2px solid #667eea;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table th {
+            background: #667eea;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .table {
+                font-size: 14px;
+                overflow-x: auto;
+                display: block;
+                white-space: nowrap;
+            }
+            
+            .table th, .table td {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table {
+                font-size: 12px;
+            }
+            
+            .table th, .table td {
+                padding: 6px;
+            }
+        }
+
+        .prototype-example {
+            background: white;
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .paper-sketch {
+            background: #fafafa;
+            border: 2px solid #999;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .wireframe-box {
+            border: 2px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+        }
+
+        .sticky-note {
+            background: #ffd54f;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .phase-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .tool-icon {
+            font-size: 3em;
+            margin: 10px;
+        }
+
+        .comparison-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 10px 0;
+        }
+         .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: #f8f9fa;
+            border-top: 2px solid #ddd;
+        }
+.global-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            background: #2d3748;
+            padding: 10px 16px;
+        }
+
+        .global-nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .global-nav a:hover {
+            background: #4c51bf;
+            color: #fff;
+        }
+
+        @media (max-width: 480px) {
+            .global-nav {
+                gap: 6px;
+                padding: 8px 12px;
+            }
+            
+            .global-nav a {
+                padding: 6px 10px;
+                font-size: 14px;
+            }
+        }
+
+        /* Universal responsive styles */
+        @media (max-width: 768px) {
+            .presentation-container {
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            }
+            
+            h2 {
+                font-size: 1.6em;
+                margin: 25px 0 15px 0;
+            }
+            
+            h3 {
+                font-size: 1.3em;
+                margin: 15px 0 12px 0;
+            }
+            
+            p, li {
+                font-size: 1em;
+                line-height: 1.6;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.4em;
+                margin: 20px 0 12px 0;
+            }
+            
+            h3 {
+                font-size: 1.2em;
+                margin: 12px 0 10px 0;
+            }
+            
+            p, li {
+                font-size: 0.9em;
+                line-height: 1.5;
+            }
+        }
+
+        /* Footer styling */
+        .footer {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center !important;
+            padding: 25px 20px;
+            font-size: 16px;
+            border-top: 3px solid #667eea;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            margin: 8px auto;
+            line-height: 1.6;
+            max-width: 1100px;
+        }
+
+        .footer-credit {
+            font-weight: 600;
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .footer-thanks {
+            font-style: italic;
+            opacity: 0.95;
+            font-size: 15px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+          <!-- Site navbar -->
+        <nav class="global-nav" aria-label="Unit navigation">
+            <a href="index.html">Unit 1</a>
+            <a href="index2.html">Unit 2</a>
+            <a href="index3.html">Unit 3</a>
+            <a href="index4.html">Unit 4</a>
+            <a href="index5.html">Unit 5</a>
+        </nav>
+        
+        <!-- Slide 1: Title Slide -->
+        <div class="slide active">
+            <div style="text-align: center; margin-top: 80px;">
+                <h2 style="color: #667eea; font-size: 1.5em; margin-bottom: 10px;">UNIT 5</h2>
+                <h1 style="font-size: 3em; margin-bottom: 20px;">Design Thinking & Prototyping</h1>
+            </div>
+            <h2 style="text-align: center; color: #764ba2;">From Discovery to Development</h2>
+            <div style="text-align: center; margin-top: 60px;">
+                <div class="flow-chart">
+                    <div class="phase-circle">Personas & Scenarios</div>
+                    <span class="arrow">→</span>
+                    <div class="phase-circle">Discovery & Brainstorm</div>
+                    <span class="arrow">→</span>
+                    <div class="phase-circle">Concept Development</div>
+                    <span class="arrow">→</span>
+                    <div class="phase-circle">Prototyping</div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 60px; font-size: 1.2em; color: #666;">
+                Complete Guide to Design Thinking Methodology & Prototyping Techniques
+            </p>
+        </div>
+
+        <!-- Slide 2: Introduction to Design Thinking -->
+        <div class="slide">
+            <h1>What is Design Thinking?</h1>
+            <p>Design Thinking is a human-centered, iterative problem-solving approach that focuses on understanding users, challenging assumptions, and creating innovative solutions.</p>
+            
+            <h3>Core Principles:</h3>
+            <div class="grid-2">
+                <div class="method-card">
+                    <h3>👤 Human-Centered</h3>
+                    <p>Focus on user needs, behaviors, and experiences</p>
+                </div>
+                <div class="method-card">
+                    <h3>🔄 Iterative</h3>
+                    <p>Continuous cycles of testing and refinement</p>
+                </div>
+                <div class="method-card">
+                    <h3>🤝 Collaborative</h3>
+                    <p>Diverse teams working together</p>
+                </div>
+                <div class="method-card">
+                    <h3>💡 Creative</h3>
+                    <p>Encourage wild ideas and experimentation</p>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Define Design Thinking and explain its core principles. Why is it important in product development? (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 3: Design Thinking Process -->
+        <div class="slide">
+            <h1>The Design Thinking Process</h1>
+            <p>Design Thinking consists of five key phases that guide teams from problem identification to solution implementation.</p>
+
+            <div class="diagram">
+                <h3>5 Phases of Design Thinking:</h3>
+                <div class="flow-chart">
+                    <div class="flow-box">1. EMPATHIZE<br><small>Understand users</small></div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">2. DEFINE<br><small>Frame the problem</small></div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">3. IDEATE<br><small>Generate ideas</small></div>
+                </div>
+                <div class="flow-chart" style="margin-top: 20px;">
+                    <div class="flow-box">4. PROTOTYPE<br><small>Build solutions</small></div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">5. TEST<br><small>Validate & iterate</small></div>
+                </div>
+            </div>
+
+            <h3>Characteristics:</h3>
+            <ul>
+                <li><strong>Non-linear:</strong> You can move back and forth between phases</li>
+                <li><strong>Flexible:</strong> Adapt the process to your project needs</li>
+                <li><strong>User-focused:</strong> Every phase centers on user needs</li>
+                <li><strong>Action-oriented:</strong> Emphasis on doing and making</li>
+            </ul>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Explain the five phases of Design Thinking with examples. How do these phases interconnect? (15 marks)
+            </div>
+        </div>
+
+        <!-- Slide 4: Personas in Design Thinking -->
+        <div class="slide">
+            <h1>Personas in Design Thinking</h1>
+            <p>Personas represent archetypal users whose goals and characteristics represent the needs of a larger group. They help teams empathize with users throughout the design process.</p>
+
+            <h3>Why Use Personas in Design Thinking?</h3>
+            <div class="method-card">
+                <strong>🎯 Focus Design Decisions:</strong> Keep user needs at the center of every decision
+            </div>
+            <div class="method-card">
+                <strong>🤝 Build Team Empathy:</strong> Create shared understanding of users
+            </div>
+            <div class="method-card">
+                <strong>💬 Facilitate Communication:</strong> Common language for discussing users
+            </div>
+            <div class="method-card">
+                <strong>✅ Prioritize Features:</strong> Align features with user goals
+            </div>
+
+            <h3>When to Create Personas:</h3>
+            <div class="diagram">
+                <div class="flow-chart">
+                    <div class="flow-box">After Empathize Phase</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">During Define Phase</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">Use Throughout Process</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Creating Design Thinking Personas -->
+        <div class="slide">
+            <h1>Creating Effective Personas</h1>
+            
+            <h3>Essential Persona Elements:</h3>
+            <table class="table">
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td><strong>Name & Photo</strong></td>
+                    <td>Makes persona memorable and human</td>
+                    <td>"Digital Native Nina"</td>
+                </tr>
+                <tr>
+                    <td><strong>Demographics</strong></td>
+                    <td>Age, occupation, location</td>
+                    <td>28, UX Designer, NYC</td>
+                </tr>
+                <tr>
+                    <td><strong>Goals</strong></td>
+                    <td>What they want to achieve</td>
+                    <td>Stay organized, collaborate efficiently</td>
+                </tr>
+                <tr>
+                    <td><strong>Frustrations</strong></td>
+                    <td>Current pain points</td>
+                    <td>Too many disconnected tools</td>
+                </tr>
+                <tr>
+                    <td><strong>Behaviors</strong></td>
+                    <td>How they currently solve problems</td>
+                    <td>Uses 5+ productivity apps daily</td>
+                </tr>
+                <tr>
+                    <td><strong>Quote</strong></td>
+                    <td>Captures their mindset</td>
+                    <td>"I need everything in one place"</td>
+                </tr>
+            </table>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Create a detailed persona for a project management tool. Include all essential elements and explain how each element informs design decisions. (12 marks)
+            </div>
+        </div>
+
+        <!-- Slide 6: Persona Example -->
+        <div class="slide">
+            <h1>Sample Persona for Design Project</h1>
+            
+            <div class="persona-card">
+                <h2 style="color: white;">👩‍💼 Creative Manager Maria</h2>
+                <div class="grid-2" style="margin-top: 20px;">
+                    <div>
+                        <h3 style="color: white;">Profile</h3>
+                        <p><strong>Age:</strong> 35</p>
+                        <p><strong>Role:</strong> Marketing Team Lead</p>
+                        <p><strong>Location:</strong> Chicago</p>
+                        <p><strong>Tech Level:</strong> Intermediate</p>
+                    </div>
+                    <div>
+                        <h3 style="color: white;">Work Context</h3>
+                        <p><strong>Team Size:</strong> 8 people</p>
+                        <p><strong>Tools Used:</strong> Slack, Asana, Adobe CC</p>
+                        <p><strong>Work Style:</strong> Visual thinker</p>
+                    </div>
+                </div>
+
+                <h3 style="color: white; margin-top: 20px;">Goals</h3>
+                <ul style="color: white;">
+                    <li>Deliver projects on time and within budget</li>
+                    <li>Foster team creativity and collaboration</li>
+                    <li>Streamline approval processes</li>
+                    <li>Present ideas effectively to executives</li>
+                </ul>
+
+                <h3 style="color: white; margin-top: 20px;">Frustrations</h3>
+                <ul style="color: white;">
+                    <li>Version control chaos with design files</li>
+                    <li>Endless email threads for feedback</li>
+                    <li>Difficulty tracking project status</li>
+                    <li>Time wasted in status meetings</li>
+                </ul>
+
+                <h3 style="color: white; margin-top: 20px;">Behaviors</h3>
+                <ul style="color: white;">
+                    <li>Checks project status multiple times daily</li>
+                    <li>Prefers visual dashboards over reports</li>
+                    <li>Mobile-first for quick updates</li>
+                    <li>Values async communication</li>
+                </ul>
+
+                <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <em>"I need a bird's eye view of all projects without drowning in details"</em>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Scenarios in Design Thinking -->
+        <div class="slide">
+            <h1>Scenarios in Design Thinking</h1>
+            <p>Scenarios are stories that describe how personas interact with your product in specific contexts to achieve their goals.</p>
+
+            <h3>Types of Scenarios:</h3>
+            <div class="grid-2">
+                <div class="method-card">
+                    <h3>📖 As-Is Scenarios</h3>
+                    <p>Current state: How users currently solve problems</p>
+                    <p><strong>Purpose:</strong> Identify pain points and opportunities</p>
+                </div>
+                <div class="method-card">
+                    <h3>🚀 To-Be Scenarios</h3>
+                    <p>Future state: How users will use your solution</p>
+                    <p><strong>Purpose:</strong> Envision ideal experience</p>
+                </div>
+            </div>
+
+            <h3>Scenario Structure:</h3>
+            <div class="diagram">
+                <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+                    <p><strong>1. Context:</strong> When, where, and why the scenario occurs</p>
+                    <p><strong>2. Persona:</strong> Who is the main actor</p>
+                    <p><strong>3. Goal:</strong> What the persona wants to accomplish</p>
+                    <p><strong>4. Actions:</strong> Step-by-step journey</p>
+                    <p><strong>5. Touchpoints:</strong> Interactions with product/service</p>
+                    <p><strong>6. Outcome:</strong> Result of the interaction</p>
+                    <p><strong>7. Emotions:</strong> How the persona feels throughout</p>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Differentiate between As-Is and To-Be scenarios. Create both types for an online learning platform. (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 8: Scenario Example -->
+        <div class="slide">
+            <h1>Sample Scenarios</h1>
+            
+            <h3>As-Is Scenario: Current State</h3>
+            <div class="comparison-box">
+                <h4>Persona: Creative Manager Maria</h4>
+                <p><strong>Context:</strong> Monday morning, 9 AM, Maria needs to check status of 5 active marketing campaigns</p>
+                <p><strong>Actions:</strong></p>
+                <ol>
+                    <li>Opens email to check updates from team members (10 unread)</li>
+                    <li>Opens Asana to review task completion (3 different projects)</li>
+                    <li>Opens Slack to ask designer about banner status</li>
+                    <li>Opens shared drive to check if final files were uploaded</li>
+                    <li>Creates spreadsheet to compile status for manager</li>
+                </ol>
+                <p><strong>Outcome:</strong> Spent 45 minutes gathering information, still missing data from 2 projects</p>
+                <p><strong>Emotion:</strong> 😫 Frustrated, overwhelmed, anxious</p>
+            </div>
+
+            <h3>To-Be Scenario: Future State with New Tool</h3>
+            <div class="comparison-box" style="background: #e8f5e9; border-color: #4caf50;">
+                <h4>Persona: Creative Manager Maria</h4>
+                <p><strong>Context:</strong> Monday morning, 9 AM, Maria needs to check status of 5 active marketing campaigns</p>
+                <p><strong>Actions:</strong></p>
+                <ol>
+                    <li>Opens project dashboard on mobile while having coffee</li>
+                    <li>Views visual timeline showing all 5 campaigns with status indicators</li>
+                    <li>Taps on any project to see real-time progress and blockers</li>
+                    <li>Adds quick voice note for designer on one project</li>
+                    <li>Exports executive summary with one click</li>
+                </ol>
+                <p><strong>Outcome:</strong> Complete overview in 5 minutes, ready for management meeting</p>
+                <p><strong>Emotion:</strong> 😊 Confident, in control, efficient</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Discovery Phase -->
+        <div class="slide">
+            <h1>Discovery Phase</h1>
+            <p>The discovery phase is about understanding the problem space, user needs, and identifying opportunities for innovation.</p>
+
+            <h3>Key Activities in Discovery:</h3>
+            <div class="method-card">
+                <h3>🔍 User Research</h3>
+                <ul>
+                    <li>Contextual interviews and observations</li>
+                    <li>Surveys and questionnaires</li>
+                    <li>Ethnographic studies</li>
+                    <li>Data analysis</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h3>📊 Market Analysis</h3>
+                <ul>
+                    <li>Competitive landscape review</li>
+                    <li>Trend analysis</li>
+                    <li>Technology assessment</li>
+                    <li>Business opportunity identification</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h3>💡 Insight Synthesis</h3>
+                <ul>
+                    <li>Affinity mapping</li>
+                    <li>Pattern identification</li>
+                    <li>Problem statement creation</li>
+                    <li>Opportunity framing</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 10: Discovery Techniques -->
+        <div class="slide">
+            <h1>Discovery Techniques</h1>
+            
+            <h3>1. Empathy Mapping</h3>
+            <div class="diagram">
+                <table class="table">
+                    <tr>
+                        <th style="width: 50%;">Says</th>
+                        <th style="width: 50%;">Thinks</th>
+                    </tr>
+                    <tr>
+                        <td>What users say out loud in interviews</td>
+                        <td>What users are thinking but may not say</td>
+                    </tr>
+                    <tr>
+                        <th>Does</th>
+                        <th>Feels</th>
+                    </tr>
+                    <tr>
+                        <td>Actions and behaviors observed</td>
+                        <td>Emotional state and attitudes</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>2. Journey Mapping</h3>
+            <p>Visual representation of user's end-to-end experience</p>
+            <div class="method-card">
+                <strong>Components:</strong> Stages → Actions → Thoughts → Emotions → Pain Points → Opportunities
+            </div>
+
+            <h3>3. How Might We (HMW) Questions</h3>
+            <div class="method-card">
+                <p>Reframe problems as opportunities</p>
+                <p><strong>Example:</strong> Problem: "Users get lost in complex menus"</p>
+                <p><strong>HMW:</strong> "How might we make navigation intuitive for first-time users?"</p>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Explain three discovery techniques used in Design Thinking. How does each technique contribute to understanding user needs? (12 marks)
+            </div>
+        </div>
+
+        <!-- Slide 11: Brainstorming -->
+        <div class="slide">
+            <h1>Brainstorming in Design Thinking</h1>
+            <p>Brainstorming is a collaborative ideation technique to generate a large quantity of ideas without judgment.</p>
+
+            <h3>Golden Rules of Brainstorming:</h3>
+            <div class="grid-2">
+                <div class="persona-card">
+                    <h3 style="color: white;">1️⃣ Defer Judgment</h3>
+                    <p>No criticism of ideas during generation phase</p>
+                </div>
+                <div class="persona-card">
+                    <h3 style="color: white;">2️⃣ Encourage Wild Ideas</h3>
+                    <p>Think outside the box, be bold and creative</p>
+                </div>
+                <div class="persona-card">
+                    <h3 style="color: white;">3️⃣ Build on Others</h3>
+                    <p>Use "Yes, and..." to expand ideas</p>
+                </div>
+                <div class="persona-card">
+                    <h3 style="color: white;">4️⃣ Go for Quantity</h3>
+                    <p>More ideas = more opportunities</p>
+                </div>
+                <div class="persona-card">
+                    <h3 style="color: white;">5️⃣ Stay Focused</h3>
+                    <p>Keep HMW question visible</p>
+                </div>
+                <div class="persona-card">
+                    <h3 style="color: white;">6️⃣ Be Visual</h3>
+                    <p>Sketch, draw, use sticky notes</p>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> What are the golden rules of brainstorming? Why is each rule important for effective ideation? (8 marks)
+            </div>
+        </div>
+
+        <!-- Slide 12: Brainstorming Techniques -->
+        <div class="slide">
+            <h1>Brainstorming Techniques</h1>
+            
+            <h3>1. Classic Brainstorming</h3>
+            <div class="method-card">
+                <p>Team gathers around whiteboard, generates ideas on sticky notes</p>
+                <p><strong>Best for:</strong> Small teams (5-8 people), time-bound sessions</p>
+            </div>
+
+            <h3>2. Brainwriting (6-3-5 Method)</h3>
+            <div class="method-card">
+                <p>6 people write 3 ideas in 5 minutes, then pass to next person</p>
+                <p><strong>Best for:</strong> Equal participation, introverted team members</p>
+            </div>
+
+            <h3>3. Mind Mapping</h3>
+            <div class="diagram">
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <div style="text-align: center;">
+                        <div style="background: #667eea; color: white; padding: 15px; border-radius: 50%; display: inline-block; margin: 20px;">
+                            <strong>Central Problem</strong>
+                        </div>
+                    </div>
+                    <div class="flow-chart">
+                        <div class="sticky-note">Idea Branch 1</div>
+                        <div class="sticky-note">Idea Branch 2</div>
+                        <div class="sticky-note">Idea Branch 3</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>4. SCAMPER Technique</h3>
+            <div class="method-card">
+                <ul>
+                    <li><strong>S</strong>ubstitute - What can be replaced?</li>
+                    <li><strong>C</strong>ombine - What can be merged?</li>
+                    <li><strong>A</strong>dapt - What can be adjusted?</li>
+                    <li><strong>M</strong>odify - What can be changed?</li>
+                    <li><strong>P</strong>ut to another use - New applications?</li>
+                    <li><strong>E</strong>liminate - What can be removed?</li>
+                    <li><strong>R</strong>everse - What can be rearranged?</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 13: From Ideas to Concepts -->
+        <div class="slide">
+            <h1>From Ideas to Concepts</h1>
+            <p>After brainstorming, ideas need to be refined into concrete concepts through evaluation and selection.</p>
+
+            <h3>Idea Selection Process:</h3>
+            <div class="diagram">
+                <div class="flow-chart">
+                    <div class="flow-box">Brainstorm<br>100+ Ideas</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">Cluster<br>Group Similar</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">Evaluate<br>Score & Rank</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">Select<br>Top 3-5 Concepts</div>
+                </div>
+            </div>
+
+            <h3>Evaluation Criteria:</h3>
+            <table class="table">
+                <tr>
+                    <th>Criteria</th>
+                    <th>Questions to Ask</th>
+                </tr>
+                <tr>
+                    <td><strong>Desirability</strong></td>
+                    <td>Does it solve user needs? Will users want this?</td>
+                </tr>
+                <tr>
+                    <td><strong>Feasibility</strong></td>
+                    <td>Can we build this? Do we have the technology?</td>
+                </tr>
+                <tr>
+                    <td><strong>Viability</strong></td>
+                    <td>Is it financially sustainable? Does it fit business goals?</td>
+                </tr>
+            </table>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Explain the process of moving from ideas to concepts. What are the three key evaluation criteria and why is each important? (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 14: Concept Development -->
+        <div class="slide">
+            <h1>Concept Development</h1>
+            <p>Concept development transforms selected ideas into detailed solutions that can be prototyped and tested.</p>
+
+            <h3>What is a Concept?</h3>
+            <div class="method-card">
+                <p>A concept is a high-level solution that describes:</p>
+                <ul>
+                    <li><strong>What</strong> the solution is</li>
+                    <li><strong>Who</strong> it's for (persona)</li>
+                    <li><strong>Why</strong> it matters (user value)</li>
+                    <li><strong>How</strong> it works (key features)</li>
+                    <li><strong>Where/When</strong> it's used (context)</li>
+                </ul>
+            </div>
+
+            <h3>Concept Development Steps:</h3>
+            <div class="grid-2">
+                <div class="method-card">
+                    <h3>1. Define Core Value</h3>
+                    <p>What's the main benefit to users?</p>
+                </div>
+                <div class="method-card">
+                    <h3>2. Identify Key Features</h3>
+                    <p>What must it have to deliver value?</p>
+                </div>
+                <div class="method-card">
+                    <h3>3. Map User Journey</h3>
+                    <p>How will users interact with it?</p>
+                </div>
+                <div class="method-card">
+                    <h3>4. Consider Constraints</h3>
+                    <p>Technical, time, budget limitations</p>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> What is concept development? Describe the key components of a well-developed concept with an example. (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 15: Task Flow Detailing -->
+        <div class="slide">
+            <h1>Task Flow Detailing</h1>
+            <p>Task flows document the complete steps users take to accomplish a specific goal within your product.</p>
+
+            <h3>Why Create Task Flows?</h3>
+            <ul>
+                <li>Understand user's step-by-step journey</li>
+                <li>Identify decision points and branches</li>
+                <li>Spot potential friction or confusion</li>
+                <li>Ensure all scenarios are covered</li>
+                <li>Communicate design to developers</li>
+            </ul>
+
+            <h3>Task Flow Components:</h3>
+            <div class="diagram">
+                <table class="table">
+                    <tr>
+                        <th>Element</th>
+                        <th>Symbol</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Entry Point</strong></td>
+                        <td>⭕ Oval</td>
+                        <td>Where user starts</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Action/Screen</strong></td>
+                        <td>▭ Rectangle</td>
+                        <td>Step or page</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Decision</strong></td>
+                        <td>◇ Diamond</td>
+                        <td>Choice/branching point</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Connector</strong></td>
+                        <td>→ Arrow</td>
+                        <td>Flow direction</td>
+                    </tr>
+                    <tr>
+                        <td><strong>End Point</strong></td>
+                        <td>⭕ Oval</td>
+                        <td>Goal achieved</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 16: Task Flow Example -->
+        <div class="slide">
+            <h1>Task Flow Example: Online Checkout</h1>
+            
+            <div class="diagram">
+                <h3>Task: Complete Purchase</h3>
+                <div style="text-align: center; margin: 30px 0;">
+                    <div style="display: inline-block; background: #48bb78; color: white; padding: 15px 30px; border-radius: 25px; margin: 10px;">
+                        START: Shopping Cart
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div style="display: inline-block; background: #667eea; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px;">
+                        Review Cart Items
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div style="display: inline-block; background: #f6ad55; padding: 15px 30px; border-radius: 10px; margin: 10px; transform: rotate(45deg);">
+                        <div style="transform: rotate(-45deg);">User Logged In?</div>
+                    </div>
+                    
+                    <div class="grid-2" style="margin: 20px 0;">
+                        <div>
+                            <strong>YES →</strong>
+                            <div style="background: #667eea; color: white; padding: 15px; border-radius: 10px; margin: 10px;">
+                                Proceed to Shipping
+                            </div>
+                        </div>
+                        <div>
+                            <strong>NO →</strong>
+                            <div style="background: #667eea; color: white; padding: 15px; border-radius: 10px; margin: 10px;">
+                                Login / Guest Checkout
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 10px 0;">↓</div>
+                    <div style="display: inline-block; background: #667eea; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px;">
+                        Enter Shipping Address
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div style="display: inline-block; background: #667eea; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px;">
+                        Select Shipping Method
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div style="display: inline-block; background: #667eea; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px;">
+                        Enter Payment Details
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div style="display: inline-block; background: #667eea; color: white; padding: 15px 30px; border-radius: 10px; margin: 10px;">
+                        Review Order
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    <div style="display: inline-block; background: #48bb78; color: white; padding: 15px 30px; border-radius: 25px; margin: 10px;">
+                        END: Order Confirmed
+                    </div>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Create a detailed task flow for booking a movie ticket online. Include entry point, steps, decision points, and end point. (12 marks)
+            </div>
+        </div>
+
+        <!-- Slide 17: User Flow vs Task Flow -->
+        <div class="slide">
+            <h1>User Flow vs Task Flow vs Wire Flow</h1>
+            
+            <table class="table">
+                <tr>
+                    <th>Aspect</th>
+                    <th>Task Flow</th>
+                    <th>User Flow</th>
+                    <th>Wire Flow</th>
+                </tr>
+                <tr>
+                    <td><strong>Focus</strong></td>
+                    <td>Single path to goal</td>
+                    <td>Multiple paths/user choices</td>
+                    <td>Flow + screen designs</td>
+                </tr>
+                <tr>
+                    <td><strong>Users</strong></td>
+                    <td>Assumed single user type</td>
+                    <td>Different user types</td>
+                    <td>Specific persona</td>
+                </tr>
+                <tr>
+                    <td><strong>Branching</strong></td>
+                    <td>Minimal</td>
+                    <td>Multiple branches</td>
+                    <td>Moderate</td>
+                </tr>
+                <tr>
+                    <td><strong>Detail Level</strong></td>
+                    <td>High-level steps</td>
+                    <td>Decision points shown</td>
+                    <td>Includes wireframes</td>
+                </tr>
+                <tr>
+                    <td><strong>When to Use</strong></td>
+                    <td>Simple, linear tasks</td>
+                    <td>Complex journeys</td>
+                    <td>Design documentation</td>
+                </tr>
+            </table>
+
+            <h3 style="margin-top: 30px;">Best Practices:</h3>
+            <ul>
+                <li>Start with task flows for simplicity</li>
+                <li>Expand to user flows when multiple paths exist</li>
+                <li>Use consistent symbols and notation</li>
+                <li>Test flows with real users</li>
+                <li>Keep flows focused on one goal at a time</li>
+            </ul>
+        </div>
+
+        <!-- Slide 18: Introduction to Prototyping -->
+        <div class="slide">
+            <h1>Prototyping in Design Thinking</h1>
+            <p>A prototype is an early sample, model, or release of a product built to test a concept or process.</p>
+
+            <h3>Why Prototype?</h3>
+            <div class="grid-2">
+                <div class="method-card">
+                    <h3>💡 Learn by Doing</h3>
+                    <p>Making ideas tangible reveals problems and possibilities</p>
+                </div>
+                <div class="method-card">
+                    <h3>🎯 Test Assumptions</h3>
+                    <p>Validate ideas before heavy investment</p>
+                </div>
+                <div class="method-card">
+                    <h3>💬 Facilitate Communication</h3>
+                    <p>Show rather than tell stakeholders</p>
+                </div>
+                <div class="method-card">
+                    <h3>👥 Get User Feedback</h3>
+                    <p>Real reactions to tangible concepts</p>
+                </div>
+                <div class="method-card">
+                    <h3>⚡ Fail Fast, Learn Faster</h3>
+                    <p>Cheap failures in early stages</p>
+                </div>
+                <div class="method-card">
+                    <h3>🔄 Iterate Quickly</h3>
+                    <p>Rapid cycles of improvement</p>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> What is prototyping? Explain its importance in the design thinking process. (8 marks)
+            </div>
+        </div>
+
+        <!-- Slide 19: Fidelity Levels -->
+        <div class="slide">
+            <h1>Prototype Fidelity Levels</h1>
+            <p>Fidelity refers to how closely a prototype resembles the final product.</p>
+
+            <h3>Low Fidelity Prototypes</h3>
+            <div class="method-card">
+                <p><strong>Characteristics:</strong> Simple, quick, cheap, rough representations</p>
+                <p><strong>Examples:</strong> Paper sketches, storyboards, wireframes</p>
+                <p><strong>Best for:</strong> Early exploration, rapid iteration, concept testing</p>
+                <p><strong>Pros:</strong> Fast to create, cheap, encourages creativity, easy to change</p>
+                <p><strong>Cons:</strong> Limited realism, may not reveal all usability issues</p>
+            </div>
+
+            <h3>Medium Fidelity Prototypes</h3>
+            <div class="method-card">
+                <p><strong>Characteristics:</strong> More detailed, some interactivity, clearer design</p>
+                <p><strong>Examples:</strong> Digital wireframes, clickable prototypes</p>
+                <p><strong>Best for:</strong> Usability testing, stakeholder presentations</p>
+                <p><strong>Pros:</strong> Balance of speed and realism, interactive</p>
+                <p><strong>Cons:</strong> Takes more time, may focus on details too early</p>
+            </div>
+
+            <h3>High Fidelity Prototypes</h3>
+            <div class="method-card">
+                <p><strong>Characteristics:</strong> Realistic visuals, full interactivity, detailed</p>
+                <p><strong>Examples:</strong> Pixel-perfect mockups, coded prototypes</p>
+                <p><strong>Best for:</strong> Final validation, investor presentations, handoff to dev</p>
+                <p><strong>Pros:</strong> Realistic testing, stakeholder buy-in, design specs</p>
+                <p><strong>Cons:</strong> Time-consuming, expensive to change</p>
+            </div>
+        </div>
+
+        <!-- Slide 20: Paper Prototyping -->
+        <div class="slide">
+            <h1>Paper Prototyping</h1>
+            <p>Paper prototyping involves creating hand-drawn sketches of interface screens and interactions.</p>
+
+            <h3>Materials Needed:</h3>
+            <div class="grid-3">
+                <div class="method-card">
+                    <div class="tool-icon">📄</div>
+                    <strong>Paper</strong>
+                    <p>Various sizes, cards</p>
+                </div>
+                <div class="method-card">
+                    <div class="tool-icon">✏️</div>
+                    <strong>Drawing Tools</strong>
+                    <p>Pens, markers, pencils</p>
+                </div>
+                <div class="method-card">
+                    <div class="tool-icon">📌</div>
+                    <strong>Sticky Notes</strong>
+                    <p>For interactive elements</p>
+                </div>
+                <div class="method-card">
+                    <div class="tool-icon">✂️</div>
+                    <strong>Scissors</strong>
+                    <p>Cut out components</p>
+                </div>
+                <div class="method-card">
+                    <div class="tool-icon">📱</div>
+                    <strong>Templates</strong>
+                    <p>Device frames</p>
+                </div>
+                <div class="method-card">
+                    <div class="tool-icon">🎨</div>
+                    <strong>Colors</strong>
+                    <p>Highlight elements</p>
+                </div>
+            </div>
+
+            <h3>Paper Prototyping Process:</h3>
+            <div class="diagram">
+                <div class="flow-chart">
+                    <div class="flow-box">Sketch Screens</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">Create Interactive Elements</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">Test with Users</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-box">Iterate</div>
+                </div>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Explain paper prototyping technique. What are its advantages and disadvantages? When should it be used? (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 21: Paper Prototype Example -->
+        <div class="slide">
+            <h1>Paper Prototype Example</h1>
+            
+            <div class="paper-sketch">
+                <h3 style="text-align: center;">Mobile App - Home Screen Sketch</h3>
+                <div style="border: 3px solid #333; padding: 20px; max-width: 300px; margin: 20px auto; background: white;">
+                    <div style="border-bottom: 2px solid #333; padding: 10px; margin-bottom: 15px;">
+                        <strong>≡ Menu</strong>
+                        <span style="float: right;">🔍 Search</span>
+                    </div>
+                    
+                    <div style="border: 2px dashed #666; padding: 20px; margin: 10px 0; text-align: center;">
+                        [Featured Banner Image]
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <strong>Categories:</strong>
+                    </div>
+                    
+                    <div class="grid-2" style="gap: 10px;">
+                        <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                            📱<br>Electronics
+                        </div>
+                        <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                            👕<br>Fashion
+                        </div>
+                        <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                            🏠<br>Home
+                        </div>
+                        <div style="border: 2px solid #333; padding: 15px; text-align: center;">
+                            📚<br>Books
+                        </div>
+                    </div>
+                    
+                    <div style="border-top: 2px solid #333; padding: 10px; margin-top: 20px; text-align: center;">
+                        <strong>🏠 Home | 🔍 Search | ❤️ Wishlist | 👤 Profile</strong>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Testing Tips:</h3>
+            <ul>
+                <li>Have one person be the "computer" moving paper pieces</li>
+                <li>Ask users to think aloud while interacting</li>
+                <li>Take notes or record the session</li>
+                <li>Don't defend design - observe and learn</li>
+            </ul>
+        </div>
+
+        <!-- Slide 22: Electronic Prototyping -->
+        <div class="slide">
+            <h1>Electronic/Digital Prototyping</h1>
+            <p>Digital prototypes are created using software tools and can range from static wireframes to interactive mockups.</p>
+
+            <h3>Types of Digital Prototypes:</h3>
+            
+            <div class="method-card">
+                <h3>1. Wireframes</h3>
+                <p><strong>What:</strong> Low-fidelity, grayscale layouts showing structure</p>
+                <p><strong>Tools:</strong> Balsamiq, Wireframe.cc, Sketch</p>
+                <p><strong>Purpose:</strong> Focus on layout and content hierarchy</p>
+            </div>
+
+            <div class="method-card">
+                <h3>2. Mockups</h3>
+                <p><strong>What:</strong> High-fidelity, realistic visual designs</p>
+                <p><strong>Tools:</strong> Figma, Adobe XD, Sketch, Photoshop</p>
+                <p><strong>Purpose:</strong> Show final visual design and branding</p>
+            </div>
+
+            <div class="method-card">
+                <h3>3. Interactive Prototypes</h3>
+                <p><strong>What:</strong> Clickable, navigable prototypes with interactions</p>
+                <p><strong>Tools:</strong> Figma, Adobe XD, InVision, Axure, ProtoPie</p>
+                <p><strong>Purpose:</strong> Test user flows and interactions</p>
+            </div>
+
+            <div class="method-card">
+                <h3>4. Coded Prototypes</h3>
+                <p><strong>What:</strong> Built with HTML/CSS/JavaScript</p>
+                <p><strong>Tools:</strong> Code editors, Framer, Webflow</p>
+                <p><strong>Purpose:</strong> Test technical feasibility and complex interactions</p>
+            </div>
+        </div>
+
+        <!-- Slide 23: Prototyping Tools Comparison -->
+        <div class="slide">
+            <h1>Popular Prototyping Tools</h1>
+            
+            <table class="table">
+                <tr>
+                    <th>Tool</th>
+                    <th>Best For</th>
+                    <th>Strengths</th>
+                    <th>Learning Curve</th>
+                </tr>
+                <tr>
+                    <td><strong>Figma</strong></td>
+                    <td>Collaborative design</td>
+                    <td>Real-time collaboration, free tier, browser-based</td>
+                    <td>Easy</td>
+                </tr>
+                <tr>
+                    <td><strong>Adobe XD</strong></td>
+                    <td>Adobe ecosystem users</td>
+                    <td>Integrates with Creative Cloud, auto-animate</td>
+                    <td>Easy</td>
+                </tr>
+                <tr>
+                    <td><strong>Sketch</strong></td>
+                    <td>Mac users, UI design</td>
+                    <td>Large plugin ecosystem, symbols system</td>
+                    <td>Easy</td>
+                </tr>
+                <tr>
+                    <td><strong>Axure RP</strong></td>
+                    <td>Complex interactions</td>
+                    <td>Advanced logic, conditional flows</td>
+                    <td>Moderate</td>
+                </tr>
+                <tr>
+                    <td><strong>InVision</strong></td>
+                    <td>Presentation, feedback</td>
+                    <td>Easy sharing, commenting features</td>
+                    <td>Easy</td>
+                </tr>
+                <tr>
+                    <td><strong>Framer</strong></td>
+                    <td>High-fidelity interactions</td>
+                    <td>Code-based, realistic animations</td>
+                    <td>Hard</td>
+                </tr>
+                <tr>
+                    <td><strong>Balsamiq</strong></td>
+                    <td>Quick wireframes</td>
+                    <td>Sketchy style, rapid creation</td>
+                    <td>Very Easy</td>
+                </tr>
+                <tr>
+                    <td><strong>ProtoPie</strong></td>
+                    <td>Advanced interactions</td>
+                    <td>Sensor integration, no code</td>
+                    <td>Moderate</td>
+                </tr>
+            </table>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Compare any three prototyping tools. Discuss their features, advantages, and ideal use cases. (12 marks)
+            </div>
+        </div>
+
+        <!-- Slide 24: Wireframe Example -->
+        <div class="slide">
+            <h1>Wireframe Example: Dashboard</h1>
+            
+            <div class="prototype-example">
+                <div style="max-width: 800px; margin: 0 auto; border: 2px solid #333;">
+                    <!-- Header -->
+                    <div style="background: #e0e0e0; padding: 15px; border-bottom: 2px solid #333;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div><strong>[LOGO]</strong></div>
+                            <div style="display: flex; gap: 20px;">
+                                <span>Dashboard</span>
+                                <span>Projects</span>
+                                <span>Team</span>
+                                <span>Reports</span>
+                            </div>
+                            <div>[User Icon ▼]</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Area -->
+                    <div style="display: grid; grid-template-columns: 200px 1fr; min-height: 400px;">
+                        <!-- Sidebar -->
+                        <div style="background: #f5f5f5; padding: 20px; border-right: 2px solid #333;">
+                            <div style="margin: 15px 0; padding: 10px; background: #667eea; color: white; border-radius: 5px;">
+                                ⊞ Overview
+                            </div>
+                            <div style="margin: 15px 0; padding: 10px;">
+                                □ Analytics
+                            </div>
+                            <div style="margin: 15px 0; padding: 10px;">
+                                □ Tasks
+                            </div>
+                            <div style="margin: 15px 0; padding: 10px;">
+                                □ Calendar
+                            </div>
+                            <div style="margin: 15px 0; padding: 10px;">
+                                □ Settings
+                            </div>
+                        </div>
+                        
+                        <!-- Main Content -->
+                        <div style="padding: 30px;">
+                            <h3>Dashboard Overview</h3>
+                            
+                            <!-- Metrics -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0;">
+                                <div class="wireframe-box">
+                                    <strong>Total Projects</strong>
+                                    <div style="font-size: 2em; margin: 10px 0;">24</div>
+                                    <small>↑ 12% from last month</small>
+                                </div>
+                                <div class="wireframe-box">
+                                    <strong>Active Tasks</strong>
+                                    <div style="font-size: 2em; margin: 10px 0;">156</div>
+                                    <small>↓ 5% from last month</small>
+                                </div>
+                                <div class="wireframe-box">
+                                    <strong>Team Members</strong>
+                                    <div style="font-size: 2em; margin: 10px 0;">18</div>
+                                    <small>→ No change</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Chart Placeholder -->
+                            <div class="wireframe-box" style="height: 200px; display: flex; align-items: center; justify-content: center;">
+                                <div>
+                                    <strong>[Chart: Project Progress Over Time]</strong>
+                                    <div style="margin-top: 20px;">
+                                        <span>——————— Line Graph ———————</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p><strong>Note:</strong> Wireframes use placeholders, grayscale colors, and simple shapes to focus on structure and functionality rather than visual design.</p>
+        </div>
+
+        <!-- Slide 25: Interactive Prototype Features -->
+        <div class="slide">
+            <h1>Interactive Prototype Features</h1>
+            
+            <h3>Key Interactions to Prototype:</h3>
+            <div class="grid-2">
+                <div class="method-card">
+                    <h3>🖱️ Click/Tap</h3>
+                    <p>Basic navigation between screens</p>
+                </div>
+                <div class="method-card">
+                    <h3>⬅️ Swipe</h3>
+                    <p>Gestures for mobile interactions</p>
+                </div>
+                <div class="method-card">
+                    <h3>🔽 Scroll</h3>
+                    <p>Vertical/horizontal content flow</p>
+                </div>
+                <div class="method-card">
+                    <h3>🎬 Animations</h3>
+                    <p>Transitions and micro-interactions</p>
+                </div>
+                <div class="method-card">
+                    <h3>📥 Input Fields</h3>
+                    <p>Form interactions and validation</p>
+                </div>
+                <div class="method-card">
+                    <h3>⏱️ Timers</h3>
+                    <p>Auto-advance or timed events</p>
+                </div>
+            </div>
+
+            <h3>Transition Types:</h3>
+            <ul>
+                <li><strong>Instant:</strong> Immediate screen change</li>
+                <li><strong>Dissolve:</strong> Fade in/out effect</li>
+                <li><strong>Slide:</strong> Screen slides in from direction</li>
+                <li><strong>Push:</strong> New screen pushes old one out</li>
+                <li><strong>Overlay:</strong> Modal or popup appearance</li>
+            </ul>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> What are the key features that should be included in an interactive prototype? Explain with examples. (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 26: Prototype Testing -->
+        <div class="slide">
+            <h1>Testing Prototypes</h1>
+            <p>Testing prototypes with users helps validate design decisions and identify issues early.</p>
+
+            <h3>Prototype Testing Methods:</h3>
+            
+            <div class="method-card">
+                <h3>1. Usability Testing</h3>
+                <p>Observe users completing specific tasks with the prototype</p>
+                <p><strong>Goal:</strong> Find usability issues and friction points</p>
+            </div>
+
+            <div class="method-card">
+                <h3>2. A/B Testing</h3>
+                <p>Compare two versions to see which performs better</p>
+                <p><strong>Goal:</strong> Data-driven design decisions</p>
+            </div>
+
+            <div class="method-card">
+                <h3>3. Think-Aloud Protocol</h3>
+                <p>Users verbalize thoughts while using prototype</p>
+                <p><strong>Goal:</strong> Understand user mental models</p>
+            </div>
+
+            <div class="method-card">
+                <h3>4. First Click Testing</h3>
+                <p>Track where users click first for a task</p>
+                <p><strong>Goal:</strong> Test information architecture and navigation</p>
+            </div>
+
+            <h3>Key Metrics to Measure:</h3>
+            <ul>
+                <li><strong>Task Success Rate:</strong> % of users who complete tasks</li>
+                <li><strong>Time on Task:</strong> How long it takes to complete</li>
+                <li><strong>Error Rate:</strong> Number of mistakes made</li>
+                <li><strong>Satisfaction:</strong> User ratings and feedback</li>
+            </ul>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Explain four methods of prototype testing. What insights does each method provide? (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 27: Prototyping Best Practices -->
+        <div class="slide">
+            <h1>Prototyping Best Practices</h1>
+            
+            <h3>Do's ✅</h3>
+            <div class="method-card">
+                <ul>
+                    <li><strong>Start with low fidelity:</strong> Rough sketches before polished designs</li>
+                    <li><strong>Prototype key flows first:</strong> Focus on critical user journeys</li>
+                    <li><strong>Use real content:</strong> Realistic text and images when possible</li>
+                    <li><strong>Test early and often:</strong> Get feedback before investing too much</li>
+                    <li><strong>Involve stakeholders:</strong> Get buy-in throughout process</li>
+                    <li><strong>Document decisions:</strong> Keep track of why choices were made</li>
+                    <li><strong>Iterate based on feedback:</strong> Use insights to improve</li>
+                </ul>
+            </div>
+
+            <h3>Don'ts ❌</h3>
+            <div class="method-card">
+                <ul>
+                    <li><strong>Don't skip paper prototyping:</strong> It's fast and valuable</li>
+                    <li><strong>Don't prototype everything:</strong> Focus on uncertain/risky areas</li>
+                    <li><strong>Don't get attached:</strong> Be ready to kill ideas</li>
+                    <li><strong>Don't aim for perfection:</strong> Good enough to test is enough</li>
+                    <li><strong>Don't ignore edge cases:</strong> Consider error states and exceptions</li>
+                    <li><strong>Don't prototype in isolation:</strong> Collaborate with team</li>
+                </ul>
+            </div>
+
+            <div class="exam-question">
+                <strong>📝 Exam Question:</strong> Discuss best practices for effective prototyping. Why is each practice important? (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 28: Choosing the Right Prototype -->
+        <div class="slide">
+            <h1>Choosing the Right Prototype Type</h1>
+            
+            <h3>Decision Framework:</h3>
+            <table class="table">
+                <tr>
+                    <th>Situation</th>
+                    <th>Recommended Prototype</th>
+                    <th>Reason</th>
+                </tr>
+                <tr>
+                    <td>Early concept exploration</td>
+                    <td>Paper Sketches</td>
+                    <td>Fast, cheap, encourages wild ideas</td>
+                </tr>
+                <tr>
+                    <td>Testing basic navigation</td>
+                    <td>Low-fi Digital Wireframes</td>
+                    <td>Focus on structure, not visuals</td>
+                </tr>
+                <tr>
+                    <td>Stakeholder presentations</td>
+                    <td>High-fi Mockups</td>
+                    <td>Realistic representation builds confidence</td>
+                </tr>
+                <tr>
+                    <td>Usability testing</td>
+                    <td>Interactive Prototype</td>
+                    <td>Realistic user flows and interactions</td>
+                </tr>
+                <tr>
+                    <td>Complex animations</td>
+                    <td>Coded Prototype</td>
+                    <td>Test technical feasibility</td>
+                </tr>
+                <tr>
+                    <td>Quick feedback on layout</td>
+                    <td>Paper Prototype</td>
+                    <td>Immediate changes during testing</td>
+                </tr>
+            </table>
+
+            <h3 style="margin-top: 30px;">Remember:</h3>
+            <div class="persona-card">
+                <p style="font-size: 1.2em; text-align: center;">
+                    "The best prototype is the one that answers your current questions with the least effort"
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 29: Complete Project Example -->
+        <div class="slide">
+            <h1>Complete Project Example: Food Delivery App</h1>
+            
+            <h3>1. Persona</h3>
+            <div class="method-card">
+                <strong>Busy Professional Brian</strong> - 32, works long hours, orders food 4x/week, values speed and reliability
+            </div>
+
+            <h3>2. Scenario</h3>
+            <div class="method-card">
+                <p><strong>As-Is:</strong> Brian spends 10 minutes browsing menus, gets frustrated with slow checkout</p>
+                <p><strong>To-Be:</strong> Brian reorders favorite meal in 30 seconds using app</p>
+            </div>
+
+            <h3>3. Discovery Insights</h3>
+            <div class="method-card">
+                <ul>
+                    <li>Users want to save favorite orders</li>
+                    <li>Delivery time accuracy is crucial</li>
+                    <li>Users abandon if checkout takes >2 minutes</li>
+                </ul>
+            </div>
+
+            <h3>4. Brainstorming Results</h3>
+            <div class="grid-2">
+                <div class="sticky-note">One-tap reorder</div>
+                <div class="sticky-note">Live delivery tracking</div>
+                <div class="sticky-note">Saved payment methods</div>
+                <div class="sticky-note">Smart recommendations</div>
+            </div>
+
+            <h3>5. Key Task Flow</h3>
+            <div class="method-card">
+                <p>Open App → View Recent Orders → Tap Reorder → Confirm Address → Place Order (3 taps total)</p>
+            </div>
+
+            <h3>6. Prototyping Approach</h3>
+            <div class="method-card">
+                <p><strong>Week 1:</strong> Paper sketches → <strong>Week 2:</strong> Digital wireframes → <strong>Week 3:</strong> Interactive prototype → <strong>Week 4:</strong> User testing</p>
+            </div>
+        </div>
+
+        <!-- Slide 30: Prototyping Workflow -->
+        <div class="slide">
+            <h1>End-to-End Prototyping Workflow</h1>
+            
+            <div class="diagram">
+                <div style="text-align: center;">
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em;">
+                        Define Goals
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em;">
+                        Sketch Ideas
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em;">
+                        Create Wireframes
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em;">
+                        Add Interactivity
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em;">
+                        Test with Users
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em;">
+                        Iterate & Refine
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em;">
+                        High-Fi Design
+                    </div>
+                    <div style="margin: 10px 0;">↓</div>
+                    
+                    <div class="phase-circle" style="width: 100px; height: 100px; font-size: 0.9em; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">
+                        Handoff to Dev
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px;">Time Allocation (Example 4-week Sprint):</h3>
+            <ul>
+                <li><strong>Week 1:</strong> Research & Discovery (20%)</li>
+                <li><strong>Week 2:</strong> Ideation & Paper Prototypes (20%)</li>
+                <li><strong>Week 3:</strong> Digital Prototyping (30%)</li>
+                <li><strong>Week 4:</strong> Testing & Iteration (30%)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 31: Common Mistakes -->
+        <div class="slide">
+            <h1>Common Prototyping Mistakes</h1>
+            
+            <div class="method-card" style="border-left: 4px solid #e53e3e;">
+                <h3>❌ Mistake #1: Skipping Low-Fidelity</h3>
+                <p><strong>Problem:</strong> Jumping straight to high-fidelity designs</p>
+                <p><strong>Impact:</strong> Waste time on details before validating concepts</p>
+                <p><strong>Solution:</strong> Always start rough, refine progressively</p>
+            </div>
+
+            <div class="method-card" style="border-left: 4px solid #e53e3e;">
+                <h3>❌ Mistake #2: Prototyping Too Much</h3>
+                <p><strong>Problem:</strong> Creating full prototypes for every screen</p>
+                <p><strong>Impact:</strong> Delays testing, analysis paralysis</p>
+                <p><strong>Solution:</strong> Focus on critical paths and risky assumptions</p>
+            </div>
+
+            <div class="method-card" style="border-left: 4px solid #e53e3e;">
+                <h3>❌ Mistake #3: Using Lorem Ipsum</h3>
+                <p><strong>Problem:</strong> Placeholder text in prototypes</p>
+                <p><strong>Impact:</strong> Miss content-related issues, unrealistic testing</p>
+                <p><strong>Solution:</strong> Use realistic content that reflects actual use</p>
+            </div>
+
+            <div class="method-card" style="border-left: 4px solid #e53e3e;">
+                <h3>❌ Mistake #4: No Clear Goals</h3>
+                <p><strong>Problem:</strong> Prototyping without specific questions to answer</p>
+                <p><strong>Impact:</strong> Unfocused effort, unclear results</p>
+                <p><strong>Solution:</strong> Define what you want to learn before building</p>
+            </div>
+
+            <div class="method-card" style="border-left: 4px solid #e53e3e;">
+                <h3>❌ Mistake #5: Ignoring Technical Constraints</h3>
+                <p><strong>Problem:</strong> Designing impossible interactions</p>
+                <p><strong>Impact:</strong> Wasted development time, disappointment</p>
+                <p><strong>Solution:</strong> Involve developers early in process</p>
+            </div>
+        </div>
+
+        <!-- Slide 32: Important Exam Questions -->
+        <div class="slide">
+            <h1>Key Exam Questions - Part 1</h1>
+            
+            <div class="exam-question">
+                <strong>Q1:</strong> Explain the Design Thinking process with its five phases. How does each phase contribute to user-centered design? (15 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q2:</strong> What are personas and scenarios in Design Thinking? Create a complete persona and both As-Is and To-Be scenarios for a mobile banking app. (15 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q3:</strong> Discuss the importance of the discovery phase in Design Thinking. Explain three discovery techniques with examples. (12 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q4:</strong> What are the golden rules of brainstorming? Explain three different brainstorming techniques and when each should be used. (10 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q5:</strong> Explain concept development in Design Thinking. What are the three evaluation criteria (Desirability, Feasibility, Viability) and why is each important? (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 33: Important Exam Questions -->
+        <div class="slide">
+            <h1>Key Exam Questions - Part 2</h1>
+            
+            <div class="exam-question">
+                <strong>Q6:</strong> What is task flow detailing? Create a detailed task flow diagram for online ticket booking including entry points, decision points, and end points. (12 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q7:</strong> Differentiate between task flows, user flows, and wire flows. When should each be used in the design process? (10 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q8:</strong> Explain the concept of prototyping in Design Thinking. Why is prototyping important? Discuss the different levels of fidelity. (12 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q9:</strong> Compare and contrast paper prototyping and electronic prototyping techniques. What are the advantages and disadvantages of each? (10 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q10:</strong> Discuss any four popular prototyping tools (like Figma, Adobe XD, Sketch, Axure). Compare their features, strengths, and ideal use cases. (12 marks)
+            </div>
+        </div>
+
+        <!-- Slide 34: Important Exam Questions -->
+        <div class="slide">
+            <h1>Key Exam Questions - Part 3</h1>
+            
+            <div class="exam-question">
+                <strong>Q11:</strong> What are the key features of an interactive prototype? Explain different types of interactions and transitions that should be included. (10 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q12:</strong> Explain four methods of prototype testing. What metrics should be measured during prototype testing and why? (12 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q13:</strong> Design a complete Design Thinking project for an e-learning platform. Include persona, scenarios, discovery insights, brainstorming results, task flow, and prototyping approach. (20 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q14:</strong> What are the best practices for effective prototyping? Discuss common mistakes to avoid during the prototyping process. (10 marks)
+            </div>
+
+            <div class="exam-question">
+                <strong>Q15:</strong> Explain how to choose the appropriate prototype type based on project needs. Provide a decision framework with examples. (10 marks)
+            </div>
+        </div>
+
+        <!-- Slide 35: Summary -->
+        <div class="slide">
+            <h1>Summary: Key Takeaways</h1>
+            
+            <div class="persona-card">
+                <h3 style="color: white;">🎯 Personas & Scenarios</h3>
+                <p>Create fictional but realistic representations of users and their interactions to guide design decisions</p>
+            </div>
+
+            <div class="persona-card">
+                <h3 style="color: white;">🔍 Discovery & Brainstorming</h3>
+                <p>Understand users deeply through research, then generate abundant creative solutions without judgment</p>
+            </div>
+
+            <div class="persona-card">
+                <h3 style="color: white;">💡 Concept Development</h3>
+                <p>Transform ideas into concrete concepts through evaluation based on desirability, feasibility, and viability</p>
+            </div>
+
+            <div class="persona-card">
+                <h3 style="color: white;">📊 Task Flow Detailing</h3>
+                <p>Map out step-by-step user journeys to identify optimal paths and potential friction points</p>
+            </div>
+
+            <div class="persona-card">
+                <h3 style="color: white;">🛠️ Prototyping</h3>
+                <p>Build tangible representations at appropriate fidelity levels - from paper sketches to coded prototypes</p>
+            </div>
+        </div>
+
+        <!-- Slide 36: Key Principles -->
+        <div class="slide">
+            <h1>Key Principles to Remember</h1>
+            
+            <div class="method-card">
+                <h3>1. Start with Empathy</h3>
+                <p>Always ground your work in deep understanding of user needs, not assumptions</p>
+            </div>
+
+            <div class="method-card">
+                <h3>2. Embrace Iteration</h3>
+                <p>Design is a cycle of making, testing, and refining - not a linear process</p>
+            </div>
+
+            <div class="method-card">
+                <h3>3. Fail Fast, Learn Faster</h3>
+                <p>Use low-fidelity prototypes to quickly test and invalidate bad ideas</p>
+            </div>
+
+            <div class="method-card">
+                <h3>4. Show, Don't Tell</h3>
+                <p>Prototypes communicate better than descriptions - make ideas tangible</p>
+            </div>
+
+            <div class="method-card">
+                <h3>5. Collaborate Always</h3>
+                <p>Involve diverse perspectives - users, stakeholders, and team members</p>
+            </div>
+
+            <div class="method-card">
+                <h3>6. Balance Art and Science</h3>
+                <p>Combine creative ideation with systematic testing and validation</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px; font-size: 1.3em; color: #667eea;">
+                <strong>Design Thinking + Prototyping = Better User Experiences!</strong>
+            </div>
+        </div>
+
+        <!-- Slide 37: Study Tips -->
+        <div class="slide">
+            <h1>Exam Preparation Tips</h1>
+            
+            <h3>📚 What to Focus On:</h3>
+            <div class="grid-2">
+                <div class="method-card">
+                    <h3>Concepts & Definitions</h3>
+                    <ul>
+                        <li>5 phases of Design Thinking</li>
+                        <li>Persona components</li>
+                        <li>Fidelity levels</li>
+                        <li>Prototype types</li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>Practical Skills</h3>
+                    <ul>
+                        <li>Creating personas</li>
+                        <li>Writing scenarios</li>
+                        <li>Drawing task flows</li>
+                        <li>Sketching wireframes</li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>Comparisons</h3>
+                    <ul>
+                        <li>As-Is vs To-Be scenarios</li>
+                        <li>Paper vs digital prototypes</li>
+                        <li>Low vs high fidelity</li>
+                        <li>Different tools comparison</li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>Processes & Workflows</h3>
+                    <ul>
+                        <li>Discovery techniques</li>
+                        <li>Brainstorming rules</li>
+                        <li>Prototype testing methods</li>
+                        <li>End-to-end workflows</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px;">✅ Exam Strategy:</h3>
+            <ul>
+                <li><strong>Use Diagrams:</strong> Always include visual representations (flowcharts, wireframes)</li>
+                <li><strong>Give Examples:</strong> Support theory with real-world or hypothetical examples</li>
+                <li><strong>Be Comprehensive:</strong> Cover all aspects of the question</li>
+                <li><strong>Structure Answers:</strong> Use headings, bullet points for clarity</li>
+                <li><strong>Practice Sketching:</strong> Be able to quickly draw task flows and wireframes</li>
+            </ul>
+        </div>
+
+        <!-- Slide 38: Thank You / End Slide -->
+        <div class="slide">
+            <div style="text-align: center; margin-top: 120px;">
+                <h1 style="font-size: 3.5em; color: #667eea;">Thank You!</h1>
+                <h2 style="color: #764ba2; margin-top: 30px;">Questions?</h2>
+                
+                <div style="margin-top: 60px; font-size: 1.2em; color: #666;">
+                    <p>📚 Review all slides and practice creating deliverables</p>
+                    <p>💡 Work through example projects end-to-end</p>
+                    <p>🎨 Practice sketching and wireframing skills</p>
+                    <p>🧠 Understand the "why" behind each technique</p>
+                </div>
+
+                <div style="margin-top: 60px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; display: inline-block; max-width: 600px;">
+                    <h3>Final Exam Success Formula:</h3>
+                    <p style="font-size: 1.1em; margin-top: 15px;">
+                        Understanding Concepts<br>+<br>
+                        Practical Skills<br>+<br>
+                        Real Examples<br>+<br>
+                        Visual Thinking<br>
+                        =<br>
+                        <strong style="font-size: 1.3em;">Excellent Results!</strong>
+                    </p>
+                </div>
+
+                <div style="margin-top: 40px; font-size: 1.1em;">
+                    <p><em>"The best way to predict the future is to design it."</em></p>
+                    <p style="margin-top: 10px;">— Buckminster Fuller</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <div class="slide-counter">
+                <span id="slideNumber">1</span> / <span id="totalSlides">38</span>
+            </div>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n > totalSlides) {
+                currentSlide = totalSlides;
+            } else if (n < 1) {
+                currentSlide = 1;
+            } else {
+                currentSlide = n;
+            }
+
+            slides[currentSlide - 1].classList.add('active');
+            document.getElementById('slideNumber').textContent = currentSlide;
+
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+        });
+
+        // Initialize
+        showSlide(1);
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-credit">Made with ❤️ by Shatakshi Gupta</p>
+        <p class="footer-thanks">Thank You</p>
+    </footer>
+</body>
+</html>
